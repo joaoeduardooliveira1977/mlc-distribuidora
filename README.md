@@ -25,3 +25,10 @@ Protótipo inicial em Next.js + TypeScript.
 - Controle de quantidade.
 - Carrinho local no navegador.
 - Página de carrinho.
+
+
+## Versão 3 — Home refinada
+- Home mais profissional e alinhada ao catálogo real.
+- Produtos reais adicionados à vitrine.
+- Removidas avaliações e preços fictícios da home.
+- Seções de categorias, kits e benefícios refinadas.
