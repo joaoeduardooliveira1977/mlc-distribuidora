@@ -112,7 +112,7 @@ export default function CartPage() {
               <h2>Finalize seu pedido pelo WhatsApp</h2>
               <p>
                 Enviamos o pedido pronto para a nossa conversa. Lá combinamos o frete e o
-                pagamento por Pix.
+                pagamento por Pix ou cartão.
               </p>
               <div className="whatsFields">
                 <label>
