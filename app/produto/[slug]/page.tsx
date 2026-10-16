@@ -66,7 +66,7 @@ export default function ProductPage({ params }: Props) {
           <PurchaseBox slug={product.slug} packs={product.packs} />
 
           <div className="deliveryCard">
-            <div><Truck /><span><strong>Entrega para todo o Brasil</strong><small>Frete calculado no checkout</small></span></div>
+            <div><Truck /><span><strong>Entrega para todo o Brasil</strong><small>Frete calculado no fechamento do pedido</small></span></div>
             <div><CreditCard /><span><strong>Pagamento seguro</strong><small>Pix e cartão</small></span></div>
             <div><ShieldCheck /><span><strong>Compra protegida</strong><small>Atendimento antes e depois da compra</small></span></div>
           </div>

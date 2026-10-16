@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { Search } from "lucide-react";
 import CartLink from "../../components/CartLink";
+import ProductCard from "../../components/ProductCard";
 import { categoryAnchor, getCategories, products } from "../../lib/catalog";
 
 export const metadata: Metadata = {
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 function normalize(text: string) {
-  return text.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 }
 
 export default function Produtos({ searchParams }: { searchParams: { q?: string } }) {
@@ -55,20 +55,7 @@ export default function Produtos({ searchParams }: { searchParams: { q?: string 
             {visible
               .filter((p) => p.category === c)
               .map((p) => (
-                <Link className="productCard productCardV3" key={p.slug} href={`/produto/${p.slug}`}>
-                  <div className="productImage">
-                    <Image
-                      src={p.image}
-                      alt={p.name}
-                      fill
-                      sizes="(max-width: 900px) 50vw, 33vw"
-                      style={{ objectFit: "cover" }}
-                    />
-                  </div>
-                  <div className="productMeta">{p.category}</div>
-                  <h3>{p.name}</h3>
-                  <div className="productCta">Ver opções</div>
-                </Link>
+                <ProductCard key={p.slug} product={p} />
               ))}
           </div>
         </section>
