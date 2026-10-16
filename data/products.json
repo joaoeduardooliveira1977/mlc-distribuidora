@@ -1,0 +1,130 @@
+[
+  {
+    "slug": "tag-natal-perola-6mm",
+    "name": "Tag Natal com Brincos de Pérola 6mm",
+    "category": "Natal",
+    "image": "/products/natal-vermelho-real.png",
+    "short": "Mimo natalino com 1 par de brincos de pérola sintética 6mm por tag.",
+    "description": "Uma lembrança delicada e elegante para clientes, colaboradores e pessoas especiais.",
+    "packs": [
+      50,
+      100,
+      150,
+      200,
+      300,
+      500
+    ]
+  },
+  {
+    "slug": "tag-natal-verde-perola",
+    "name": "Tag Feliz Natal Verde com Brincos de Pérola",
+    "category": "Natal",
+    "image": "/products/natal-verde-real.png",
+    "short": "Tag natalina em tons de verde com brincos de pérola.",
+    "description": "Modelo natalino clássico e elegante, pronto para presentear.",
+    "packs": [
+      50,
+      100,
+      150,
+      200,
+      300,
+      500
+    ]
+  },
+  {
+    "slug": "tag-natal-preto-dourado",
+    "name": "Tag Natal Preto e Dourado com Pérolas",
+    "category": "Natal",
+    "image": "/products/natal-preto-dourado.png",
+    "short": "Visual sofisticado em preto e dourado com pérolas.",
+    "description": "Opção refinada para empresas, boutiques, salões e clientes.",
+    "packs": [
+      50,
+      100,
+      150,
+      200,
+      300,
+      500
+    ]
+  },
+  {
+    "slug": "tag-manicure-brilho-renovado",
+    "name": "Tag Manicure + Brincos de Pérola",
+    "category": "Manicure",
+    "image": "/products/floral-perolas.png",
+    "short": "Mimo para clientes de manicure e nail designer.",
+    "description": "Ideal para fidelização e ações de agradecimento.",
+    "packs": [
+      50,
+      100,
+      150,
+      200,
+      300,
+      500
+    ]
+  },
+  {
+    "slug": "tag-cabeleireira-perola",
+    "name": "Tag Cabeleireira com Brincos de Pérola",
+    "category": "Cabeleireira",
+    "image": "/products/floral-perolas.png",
+    "short": "Mimo elegante para clientes de salão e hair stylist.",
+    "description": "Uma lembrança delicada para valorizar a experiência da cliente.",
+    "packs": [
+      50,
+      100,
+      150,
+      200,
+      300,
+      500
+    ]
+  },
+  {
+    "slug": "tag-lash-designer",
+    "name": "Tag Lash Designer com Brincos de Pérola",
+    "category": "Lash Designer",
+    "image": "/products/floral-perolas.png",
+    "short": "Tag delicada para clientes de extensão de cílios.",
+    "description": "Perfeita para surpreender clientes com um mimo memorável.",
+    "packs": [
+      50,
+      100,
+      150,
+      200,
+      300,
+      500
+    ]
+  },
+  {
+    "slug": "tag-estetica-autocuidado",
+    "name": "Tag Estética | Seu Momento de Autocuidado",
+    "category": "Estética",
+    "image": "/products/floral-perolas.png",
+    "short": "Mimo para clínicas de estética e profissionais de beleza.",
+    "description": "Uma forma delicada de reforçar a experiência de autocuidado.",
+    "packs": [
+      50,
+      100,
+      150,
+      200,
+      300,
+      500
+    ]
+  },
+  {
+    "slug": "tag-outubro-rosa",
+    "name": "Tag Outubro Rosa com Brincos de Pérola",
+    "category": "Datas especiais",
+    "image": "/products/outubro-rosa.png",
+    "short": "Tag temática Outubro Rosa com brincos de pérola.",
+    "description": "Ideal para campanhas, eventos, clínicas e empresas.",
+    "packs": [
+      50,
+      100,
+      150,
+      200,
+      300,
+      500
+    ]
+  }
+]

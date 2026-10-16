@@ -198,3 +198,8 @@
   .siteFooter{grid-template-columns:1fr;gap:30px}
   .siteFooter>div:first-child{grid-column:auto}
 }
+
+.productDescription{font-size:14px;line-height:1.65;color:#6d5d56;margin:0 0 16px}
+.catalogPage{min-height:100vh;background:#fffaf8}.catalogHeader{text-align:center;padding:58px 20px 28px;background:#f9eee9;border-bottom:1px solid var(--line)}
+.catalogHeader h1{font-family:Georgia,serif;color:var(--burgundy);font-size:46px;margin:10px 0}.catalogHeader p{color:#6f605a}
+.catalogSection{padding:38px 5vw}.catalogSection .sectionHead h2{font-size:32px}

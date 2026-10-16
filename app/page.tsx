@@ -28,36 +28,12 @@ const categories = [
 ];
 
 const products = [
-  {
-    name: "Tag Natal com Brincos de Pérola 6mm",
-    category: "Natal",
-    image: "/products/natal-vermelho-real.png",
-  },
-  {
-    name: "Tag Feliz Natal Verde com Brincos de Pérola",
-    category: "Natal",
-    image: "/products/natal-verde-real.png",
-  },
-  {
-    name: "Tag Natal Preto e Dourado com Pérolas",
-    category: "Natal",
-    image: "/products/natal-preto-dourado.png",
-  },
-  {
-    name: "Tag Natal Vermelha Elegante com Pérolas",
-    category: "Natal",
-    image: "/products/natal-vermelho-elegante.png",
-  },
-  {
-    name: "Tag Outubro Rosa com Brincos de Pérola",
-    category: "Datas especiais",
-    image: "/products/outubro-rosa.png",
-  },
-  {
-    name: "Tag Floral com Brincos de Pérola",
-    category: "Mimos",
-    image: "/products/floral-perolas.png",
-  },
+  {name:"Tag Natal com Brincos de Pérola 6mm",category:"Natal",image:"/products/natal-vermelho-real.png",slug:"tag-natal-perola-6mm"},
+  {name:"Tag Feliz Natal Verde com Brincos de Pérola",category:"Natal",image:"/products/natal-verde-real.png",slug:"tag-natal-verde-perola"},
+  {name:"Tag Natal Preto e Dourado com Pérolas",category:"Natal",image:"/products/natal-preto-dourado.png",slug:"tag-natal-preto-dourado"},
+  {name:"Tag Manicure + Brincos de Pérola",category:"Manicure",image:"/products/floral-perolas.png",slug:"tag-manicure-brilho-renovado"},
+  {name:"Tag Cabeleireira com Brincos de Pérola",category:"Cabeleireira",image:"/products/floral-perolas.png",slug:"tag-cabeleireira-perola"},
+  {name:"Tag Outubro Rosa com Brincos de Pérola",category:"Datas especiais",image:"/products/outubro-rosa.png",slug:"tag-outubro-rosa"}
 ];
 
 export default function Home() {
@@ -86,11 +62,11 @@ export default function Home() {
 
       <nav className="nav">
         <Link href="/">Início</Link>
-        <a>Tags com Brincos</a>
-        <a>Mimos para Profissionais</a>
-        <a>Datas Comemorativas</a>
-        <a>Kits e Atacado</a>
-        <a>Embalagens</a>
+        <Link href="/produtos">Tags com Brincos</Link>
+        <Link href="/produtos">Mimos para Profissionais</Link>
+        <Link href="/produtos">Datas Comemorativas</Link>
+        <Link href="/produtos">Kits e Atacado</Link>
+        <Link href="/produtos">Embalagens</Link>
       </nav>
 
       <section className="hero heroV3">
@@ -103,7 +79,7 @@ export default function Home() {
           </p>
           <div className="heroButtons">
             <Link href="/produto/tag-natal" className="primary">VER COLEÇÃO DE NATAL →</Link>
-            <a className="secondaryButton">VER TODOS OS MIMOS</a>
+            <Link href="/produtos" className="secondaryButton">VER TODOS OS MIMOS</Link>
           </div>
         </div>
 
@@ -166,7 +142,7 @@ export default function Home() {
             <Link
               className="productCard productCardV3"
               key={p.name}
-              href={i < 4 ? "/produto/tag-natal" : "#"}
+              href={`/produto/${p.slug}`}
             >
               <div className="productImage">
                 <Image src={p.image} alt={p.name} fill style={{objectFit:"cover"}} />
