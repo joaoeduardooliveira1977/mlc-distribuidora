@@ -230,3 +230,16 @@
   .purchaseRow{grid-template-columns:1fr}
   .stepperWrap .stepper{justify-content:center}
 }
+
+/* Vitrine com mais colunas e imagens menores */
+.productGridV3{grid-template-columns:repeat(6,minmax(0,1fr));gap:20px}
+.productCardV3 .productImage{aspect-ratio:1/1;border-radius:10px}
+.productCardV3 .productMeta{margin-top:10px;font-size:9px}
+.productCardV3 h3{font-size:15px;line-height:1.3;margin:5px 0 7px}
+@media (max-width: 1100px){
+  .productGridV3{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+}
+@media (max-width: 600px){
+  .productGridV3{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .productCardV3 h3{font-size:14px}
+}
