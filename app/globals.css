@@ -243,3 +243,27 @@
   .productGridV3{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
   .productCardV3 h3{font-size:14px}
 }
+
+/* Vendas de Natal: faixa de prazo, preço nos cards e pedido pelo WhatsApp */
+.announcementBar{background:var(--burgundy);color:#fff;text-align:center;font-size:13px;padding:9px 16px;letter-spacing:.2px}
+.announcementBar strong{font-weight:800}
+.cardPrice{display:flex;flex-direction:column;margin:2px 0 8px;line-height:1.25}
+.cardPrice small{font-size:11px;color:#7a6963}
+.cardPrice strong{font-size:17px;color:var(--ink)}
+.cardPrice span{font-size:11px;color:#7a6963}
+.whatsCheckout{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;margin-top:14px}
+.whatsCheckout h2{font-family:Georgia,serif;color:var(--burgundy);font-size:22px;margin:0 0 6px}
+.whatsCheckout p{margin:0 0 14px;color:#6d5d56;font-size:14px;line-height:1.5}
+.whatsFields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.whatsFields label{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:700;color:#4b3d37}
+.whatsFields small{font-weight:400;color:#8a7a74}
+.whatsFields input{border:1px solid #d9ccc6;border-radius:10px;padding:11px 12px;font-weight:400;background:#fffdfc}
+.whatsFields input:focus{outline:2px solid var(--burgundy);outline-offset:1px}
+.whatsButton{display:flex;align-items:center;gap:8px;background:#1f8f4e}
+.whatsButton:hover{background:#1a7a42}
+@media (max-width: 560px){
+  .whatsFields{grid-template-columns:1fr}
+  .cartActions{flex-direction:column-reverse}
+  .cartActions .whatsButton,.cartActions .clearButton{justify-content:center}
+}
+.sectionHead>a{white-space:nowrap}

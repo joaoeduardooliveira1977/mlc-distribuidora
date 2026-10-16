@@ -41,6 +41,11 @@ export function getPackPrice(slug: string, pack: number): number | undefined {
   return PACK_PRICES[pack];
 }
 
+/** Menor preço de kit do produto (o kit mais barato). */
+export function getMinPackPrice(product: Product): number {
+  return Math.min(...product.packs.map((q) => PACK_PRICES[q]));
+}
+
 export function getCategories(): string[] {
   return Array.from(new Set(products.map((p) => p.category)));
 }
@@ -48,7 +53,7 @@ export function getCategories(): string[] {
 export function categoryAnchor(category: string): string {
   return category
     .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
+    .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");

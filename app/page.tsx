@@ -14,7 +14,9 @@ import {
   ChevronRight,
 } from "lucide-react";
 import CartLink from "../components/CartLink";
+import ProductCard from "../components/ProductCard";
 import { categoryAnchor, getProduct, type Product } from "../lib/catalog";
+import { whatsappLink } from "../lib/config";
 
 const categories = [
   { label: "Natal", icon: Gift, subtitle: "Mimos de fim de ano", href: `/produtos#${categoryAnchor("Natal")}` },
@@ -106,7 +108,7 @@ export default function Home() {
 
       <section className="trust">
         <div><Gem /><span><strong>Produtos delicados</strong><small>Acabamento pensado nos detalhes</small></span></div>
-        <div><Truck /><span><strong>Envio para todo o Brasil</strong><small>Frete calculado no checkout</small></span></div>
+        <div><Truck /><span><strong>Envio para todo o Brasil</strong><small>Frete calculado no fechamento do pedido</small></span></div>
         <div><CreditCard /><span><strong>Pagamento seguro</strong><small>Pix e cartão</small></span></div>
         <div><PackageCheck /><span><strong>Kits para diferentes demandas</strong><small>50, 100, 150, 200 e mais</small></span></div>
       </section>
@@ -142,20 +144,7 @@ export default function Home() {
 
         <div className="productGrid productGridV3">
           {featured.map((p) => (
-            <Link className="productCard productCardV3" key={p.slug} href={`/produto/${p.slug}`}>
-              <div className="productImage">
-                <Image
-                  src={p.image}
-                  alt={p.name}
-                  fill
-                  sizes="(max-width: 900px) 50vw, 33vw"
-                  style={{ objectFit: "cover" }}
-                />
-              </div>
-              <div className="productMeta">{p.category}</div>
-              <h3>{p.name}</h3>
-              <div className="productCta">Ver opções <ChevronRight size={14} /></div>
-            </Link>
+            <ProductCard key={p.slug} product={p} />
           ))}
         </div>
       </section>
@@ -197,8 +186,8 @@ export default function Home() {
         </div>
         <div>
           <strong>Atendimento</strong>
-          {/* TODO: criar as páginas de contato, trocas/arrependimento, envios e privacidade */}
-          <span>Fale conosco</span>
+          {/* TODO: criar as páginas de trocas/arrependimento, envios e privacidade */}
+          <a href={whatsappLink()} target="_blank" rel="noopener noreferrer">Fale conosco pelo WhatsApp</a>
           <span>Trocas e dúvidas</span>
           <span>Envios e prazos</span>
         </div>
