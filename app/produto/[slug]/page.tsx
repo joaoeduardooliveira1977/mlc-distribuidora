@@ -9,10 +9,11 @@ import products from "../../../data/products.json";
 const prices:Record<number,number>={50:69.9,100:119.9,150:169.9,200:219.9,300:309.9,500:479.9};
 const brl=(v:number)=>v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 export default function Product(){
- const params=useParams(); const product=products.find(p=>p.slug===String(params.slug));
+ const params=useParams(); const foundProduct=products.find(p=>p.slug===String(params.slug));
  const [pack,setPack]=useState(100); const [units,setUnits]=useState(1); const [added,setAdded]=useState(false);
- if(!product) return <main className="cartPage"><div className="cartShell"><Link href="/">Voltar</Link><h1>Produto não encontrado</h1></div></main>;
  const price=prices[pack], total=useMemo(()=>price*units,[price,units]);
+ if(!foundProduct) return <main className="cartPage"><div className="cartShell"><Link href="/">Voltar</Link><h1>Produto não encontrado</h1></div></main>;
+ const product = foundProduct;
  function add(){const item={id:`${product.slug}-${pack}`,name:`${product.name} — ${pack} unidades`,pack,quantity:units,unitPrice:price,image:product.image};
  const cur=JSON.parse(localStorage.getItem("um-mimo-para-voce-cart")||"[]"); localStorage.setItem("um-mimo-para-voce-cart",JSON.stringify([...cur.filter((x:any)=>x.id!==item.id),item])); setAdded(true); setTimeout(()=>setAdded(false),1800);}
  return <main className="productPage"><div className="miniHeader"><Link href="/" className="backLink"><ChevronLeft size={18}/>Voltar</Link><Link href="/" className="miniBrand">Um mimo para você</Link><Link href="/carrinho" className="miniCart"><ShoppingBag size={18}/>Carrinho</Link></div>

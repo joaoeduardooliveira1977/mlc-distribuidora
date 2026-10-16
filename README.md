@@ -32,3 +32,7 @@ Protótipo inicial em Next.js + TypeScript.
 - Produtos reais adicionados à vitrine.
 - Removidas avaliações e preços fictícios da home.
 - Seções de categorias, kits e benefícios refinadas.
+
+
+## Correção de build
+- Corrigido erro de TypeScript em `app/produto/[slug]/page.tsx` (`product is possibly undefined`).
