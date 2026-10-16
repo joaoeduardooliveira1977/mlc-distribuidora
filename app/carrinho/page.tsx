@@ -1,65 +1,101 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import { ArrowLeft, Trash2 } from "lucide-react";
-
-function brl(value: number) {
-  return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-}
+import { useEffect, useState } from "react";
+import { ArrowLeft, Minus, Plus, Trash2, X } from "lucide-react";
+import { brl } from "../../lib/catalog";
+import {
+  type CartLine,
+  clearCart,
+  getCartLines,
+  onCartChange,
+  removeFromCart,
+  setQuantity,
+} from "../../lib/cart";
 
 export default function CartPage() {
-  const [items, setItems] = useState<any[]>([]);
+  const [lines, setLines] = useState<CartLine[]>([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    setItems(JSON.parse(localStorage.getItem("um-mimo-para-voce-cart") || "[]"));
+    const refresh = () => setLines(getCartLines());
+    refresh();
+    setLoaded(true);
+    return onCartChange(refresh);
   }, []);
 
-  const total = useMemo(
-    () => items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0),
-    [items]
-  );
-
-  function clearCart() {
-    localStorage.removeItem("um-mimo-para-voce-cart");
-    setItems([]);
-  }
+  const total = lines.reduce((sum, l) => sum + l.lineTotal, 0);
 
   return (
     <main className="cartPage">
       <div className="cartShell">
-        <Link href="/" className="backLink"><ArrowLeft size={18}/> Continuar comprando</Link>
+        <Link href="/produtos" className="backLink"><ArrowLeft size={18} /> Continuar comprando</Link>
         <h1>Meu carrinho</h1>
 
-        {items.length === 0 ? (
+        {!loaded ? null : lines.length === 0 ? (
           <div className="emptyCart">
             <p>Seu carrinho ainda está vazio.</p>
-            <Link className="primaryLink" href="/">Ver produtos</Link>
+            <Link className="primaryLink" href="/produtos">Ver produtos</Link>
           </div>
         ) : (
           <>
             <div className="cartList">
-              {items.map(item => (
-                <div className="cartItem" key={item.id}>
-                  <div className="cartImg">
-                    <Image src={item.image} alt="" fill style={{objectFit:"cover"}}/>
-                  </div>
+              {lines.map((line) => (
+                <div className="cartItem" key={`${line.slug}-${line.pack}`}>
+                  <Link href={`/produto/${line.slug}`} className="cartImg">
+                    <Image src={line.image} alt="" fill sizes="92px" style={{ objectFit: "cover" }} />
+                  </Link>
                   <div className="cartText">
-                    <strong>{item.name}</strong>
-                    <span>Quantidade de kits: {item.quantity}</span>
+                    <strong>{line.name}</strong>
+                    <span>Kit com {line.pack} tags • {brl(line.unitPrice)} cada kit</span>
+                    <div className="cartQty">
+                      <div className="stepper stepperSmall">
+                        <button
+                          type="button"
+                          aria-label="Diminuir quantidade de kits"
+                          onClick={() => setQuantity(line.slug, line.pack, line.quantity - 1)}
+                        >
+                          <Minus size={15} />
+                        </button>
+                        <span>{line.quantity}</span>
+                        <button
+                          type="button"
+                          aria-label="Aumentar quantidade de kits"
+                          onClick={() => setQuantity(line.slug, line.pack, line.quantity + 1)}
+                        >
+                          <Plus size={15} />
+                        </button>
+                      </div>
+                      <button
+                        type="button"
+                        className="removeButton"
+                        onClick={() => removeFromCart(line.slug, line.pack)}
+                      >
+                        <X size={14} /> Remover
+                      </button>
+                    </div>
                   </div>
-                  <b>{brl(item.unitPrice * item.quantity)}</b>
+                  <b>{brl(line.lineTotal)}</b>
                 </div>
               ))}
             </div>
             <div className="cartSummary">
-              <span>Total</span>
+              <span>Total (sem frete)</span>
               <strong>{brl(total)}</strong>
             </div>
             <div className="cartActions">
-              <button className="clearButton" onClick={clearCart}><Trash2 size={17}/> Limpar</button>
-              <button className="checkoutButton">Ir para checkout</button>
+              <button type="button" className="clearButton" onClick={clearCart}>
+                <Trash2 size={17} /> Esvaziar carrinho
+              </button>
+              <button
+                type="button"
+                className="checkoutButton"
+                disabled
+                title="Pagamento online em breve"
+              >
+                Checkout em breve
+              </button>
             </div>
           </>
         )}

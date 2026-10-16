@@ -1,26 +1,95 @@
-
-"use client";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import {useMemo,useState} from "react";
-import {useParams} from "next/navigation";
-import {ChevronLeft,ShoppingBag,Minus,Plus,Truck,CreditCard,ShieldCheck} from "lucide-react";
-import products from "../../../data/products.json";
-const prices:Record<number,number>={50:69.9,100:119.9,150:169.9,200:219.9,300:309.9,500:479.9};
-const brl=(v:number)=>v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
-export default function Product(){
- const params=useParams(); const foundProduct=products.find(p=>p.slug===String(params.slug));
- const [pack,setPack]=useState(100); const [units,setUnits]=useState(1); const [added,setAdded]=useState(false);
- const price=prices[pack], total=useMemo(()=>price*units,[price,units]);
- if(!foundProduct) return <main className="cartPage"><div className="cartShell"><Link href="/">Voltar</Link><h1>Produto não encontrado</h1></div></main>;
- const product = foundProduct;
- function add(){const item={id:`${product.slug}-${pack}`,name:`${product.name} — ${pack} unidades`,pack,quantity:units,unitPrice:price,image:product.image};
- const cur=JSON.parse(localStorage.getItem("um-mimo-para-voce-cart")||"[]"); localStorage.setItem("um-mimo-para-voce-cart",JSON.stringify([...cur.filter((x:any)=>x.id!==item.id),item])); setAdded(true); setTimeout(()=>setAdded(false),1800);}
- return <main className="productPage"><div className="miniHeader"><Link href="/" className="backLink"><ChevronLeft size={18}/>Voltar</Link><Link href="/" className="miniBrand">Um mimo para você</Link><Link href="/carrinho" className="miniCart"><ShoppingBag size={18}/>Carrinho</Link></div>
- <section className="productLayout"><div className="productGallery"><div className="mainProductImage"><Image src={product.image} alt={product.name} fill style={{objectFit:"cover"}}/></div></div>
- <div className="productInfo"><span className="productBadge">{product.category.toUpperCase()}</span><h1>{product.name}</h1><p className="productIntro">{product.short}</p><p className="productDescription">{product.description}</p><div className="priceBig">{brl(price)}</div>
- <div className="selectorBlock"><div className="selectorTitle"><strong>Escolha a quantidade</strong><span>{pack} tags + {pack} pares</span></div><div className="packGrid">{product.packs.map(q=><button key={q} className={pack===q?"packOption active":"packOption"} onClick={()=>setPack(q)}><strong>{q}</strong><span>unidades</span><small>{brl(prices[q])}</small></button>)}</div></div>
- <div className="purchaseRow"><div className="stepper"><button onClick={()=>setUnits(Math.max(1,units-1))}><Minus size={17}/></button><span>{units}</span><button onClick={()=>setUnits(units+1)}><Plus size={17}/></button></div><button className="buyButton" onClick={add}>{added?"Adicionado!":`Adicionar • ${brl(total)}`}</button></div>
- <div className="deliveryCard"><div><Truck/><span><strong>Entrega para todo o Brasil</strong><small>Frete no checkout</small></span></div><div><CreditCard/><span><strong>Pagamento seguro</strong><small>Pix e cartão</small></span></div><div><ShieldCheck/><span><strong>Compra protegida</strong><small>Atendimento antes e depois</small></span></div></div>
- </div></section></main>;
+import { notFound } from "next/navigation";
+import { ChevronLeft, CreditCard, ShieldCheck, Truck } from "lucide-react";
+import PurchaseBox from "../../../components/PurchaseBox";
+import CartLink from "../../../components/CartLink";
+import { getProduct, products } from "../../../lib/catalog";
+
+type Props = { params: { slug: string } };
+
+// Gera todas as páginas de produto no build (HTML pronto para o Google).
+export function generateStaticParams() {
+  return products.map((p) => ({ slug: p.slug }));
+}
+export const dynamicParams = false;
+
+export function generateMetadata({ params }: Props): Metadata {
+  const product = getProduct(params.slug);
+  if (!product) return {};
+  return {
+    title: `${product.name} | Um mimo para você`,
+    description: `${product.short} ${product.description}`,
+    openGraph: {
+      title: product.name,
+      description: product.short,
+      images: [product.image],
+    },
+  };
+}
+
+export default function ProductPage({ params }: Props) {
+  const product = getProduct(params.slug);
+  if (!product) notFound();
+
+  return (
+    <main className="productPage">
+      <div className="miniHeader">
+        <Link href="/produtos" className="backLink">
+          <ChevronLeft size={18} /> Voltar para a loja
+        </Link>
+        <Link href="/" className="miniBrand">Um mimo para você</Link>
+        <CartLink className="miniCart" label="Carrinho" size={18} />
+      </div>
+
+      <section className="productLayout">
+        <div className="productGallery">
+          <div className="mainProductImage">
+            <Image
+              src={product.image}
+              alt={product.name}
+              fill
+              priority
+              sizes="(max-width: 850px) 100vw, 600px"
+              style={{ objectFit: "cover" }}
+            />
+          </div>
+        </div>
+
+        <div className="productInfo">
+          <span className="productBadge">{product.category.toUpperCase()}</span>
+          <h1>{product.name}</h1>
+          <p className="productIntro">{product.short}</p>
+          <p className="productDescription">{product.description}</p>
+
+          <PurchaseBox slug={product.slug} packs={product.packs} />
+
+          <div className="deliveryCard">
+            <div><Truck /><span><strong>Entrega para todo o Brasil</strong><small>Frete calculado no checkout</small></span></div>
+            <div><CreditCard /><span><strong>Pagamento seguro</strong><small>Pix e cartão</small></span></div>
+            <div><ShieldCheck /><span><strong>Compra protegida</strong><small>Atendimento antes e depois da compra</small></span></div>
+          </div>
+
+          <div className="productDetails">
+            <h2>Detalhes do produto</h2>
+            <ul>
+              <li>Cada tag acompanha 1 par de brincos de pérola.</li>
+              <li>Ideal para brindes, clientes, confraternizações e eventos.</li>
+              <li>Não realizamos personalização.</li>
+              <li>O modelo é enviado conforme as imagens do anúncio.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section className="productBottom">
+        <h2>Uma lembrança simples, bonita e pronta para encantar</h2>
+        <p>
+          Escolha o tamanho do kit que melhor atende sua necessidade e transforme
+          seu presente em uma experiência mais especial.
+        </p>
+      </section>
+    </main>
+  );
 }

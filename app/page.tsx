@@ -1,12 +1,8 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import {
   Heart,
   Search,
-  ShoppingBag,
-  UserRound,
   Truck,
   CreditCard,
   Gift,
@@ -15,58 +11,64 @@ import {
   Sparkles,
   Flower2,
   PackageCheck,
-  ChevronRight
+  ChevronRight,
 } from "lucide-react";
+import CartLink from "../components/CartLink";
+import { categoryAnchor, getProduct, type Product } from "../lib/catalog";
 
 const categories = [
-  { label: "Natal", icon: Gift, subtitle: "Mimos de fim de ano" },
-  { label: "Cabeleireira", icon: Scissors, subtitle: "Tags para clientes" },
-  { label: "Manicure", icon: Sparkles, subtitle: "Mimos profissionais" },
-  { label: "Lash Designer", icon: Heart, subtitle: "Delicadeza e brilho" },
-  { label: "Estética", icon: Flower2, subtitle: "Autocuidado e carinho" },
-  { label: "Kits e Atacado", icon: Gem, subtitle: "A partir de 50 unidades" },
+  { label: "Natal", icon: Gift, subtitle: "Mimos de fim de ano", href: `/produtos#${categoryAnchor("Natal")}` },
+  { label: "Cabeleireira", icon: Scissors, subtitle: "Tags para clientes", href: `/produtos#${categoryAnchor("Cabeleireira")}` },
+  { label: "Manicure", icon: Sparkles, subtitle: "Mimos profissionais", href: `/produtos#${categoryAnchor("Manicure")}` },
+  { label: "Lash Designer", icon: Heart, subtitle: "Delicadeza e brilho", href: `/produtos#${categoryAnchor("Lash Designer")}` },
+  { label: "Estética", icon: Flower2, subtitle: "Autocuidado e carinho", href: `/produtos#${categoryAnchor("Estética")}` },
+  { label: "Kits e Atacado", icon: Gem, subtitle: "A partir de 50 unidades", href: "/produtos" },
 ];
 
-const products = [
-  {name:"Tag Natal com Brincos de Pérola 6mm",category:"Natal",image:"/products/natal-vermelho-real.png",slug:"tag-natal-perola-6mm"},
-  {name:"Tag Feliz Natal Verde com Brincos de Pérola",category:"Natal",image:"/products/natal-verde-real.png",slug:"tag-natal-verde-perola"},
-  {name:"Tag Natal Preto e Dourado com Pérolas",category:"Natal",image:"/products/natal-preto-dourado.png",slug:"tag-natal-preto-dourado"},
-  {name:"Tag Manicure + Brincos de Pérola",category:"Manicure",image:"/products/floral-perolas.png",slug:"tag-manicure-brilho-renovado"},
-  {name:"Tag Cabeleireira com Brincos de Pérola",category:"Cabeleireira",image:"/products/floral-perolas.png",slug:"tag-cabeleireira-perola"},
-  {name:"Tag Outubro Rosa com Brincos de Pérola",category:"Datas especiais",image:"/products/outubro-rosa.png",slug:"tag-outubro-rosa"}
+// Vitrine da home: só escolhe QUAIS produtos aparecem; os dados vêm do catálogo.
+const featuredSlugs = [
+  "tag-natal-perola-6mm",
+  "tag-natal-verde-perola",
+  "tag-natal-preto-dourado",
+  "tag-manicure-brilho-renovado",
+  "tag-cabeleireira-perola",
+  "tag-outubro-rosa",
 ];
+const featured = featuredSlugs
+  .map((slug) => getProduct(slug))
+  .filter((p): p is Product => Boolean(p));
+
+const NATAL_PRODUCT = "/produto/tag-natal-perola-6mm";
 
 export default function Home() {
   return (
     <main>
       <header className="topbar">
         <Link href="/" className="brand">
-          <div className="heartMark">♥</div>
+          <div className="heartMark" aria-hidden>♥</div>
           <div>
             <div className="brandName">Um mimo para você</div>
             <div className="brandSub">MIMOS QUE ENCANTAM</div>
           </div>
         </Link>
 
-        <div className="searchBox">
-          <input placeholder="O que você está procurando?" />
-          <Search size={20} />
-        </div>
+        <form className="searchBox" action="/produtos" role="search">
+          <label htmlFor="busca" className="srOnly">Buscar produtos</label>
+          <input id="busca" name="q" type="search" placeholder="O que você está procurando?" />
+          <button type="submit" className="searchButton" aria-label="Buscar"><Search size={20} /></button>
+        </form>
 
         <div className="actions">
-          <button><UserRound size={21}/><span>Minha conta</span></button>
-          <button><Heart size={21}/><span>Favoritos</span></button>
-          <Link href="/carrinho" className="actionLink"><ShoppingBag size={21}/><span>Meu carrinho</span></Link>
+          <CartLink className="actionLink" />
         </div>
       </header>
 
       <nav className="nav">
         <Link href="/">Início</Link>
         <Link href="/produtos">Tags com Brincos</Link>
-        <Link href="/produtos">Mimos para Profissionais</Link>
-        <Link href="/produtos">Datas Comemorativas</Link>
+        <Link href={`/produtos#${categoryAnchor("Natal")}`}>Natal</Link>
+        <Link href={`/produtos#${categoryAnchor("Datas especiais")}`}>Datas Comemorativas</Link>
         <Link href="/produtos">Kits e Atacado</Link>
-        <Link href="/produtos">Embalagens</Link>
       </nav>
 
       <section className="hero heroV3">
@@ -78,21 +80,22 @@ export default function Home() {
             presentear e encantar clientes, colaboradores e pessoas especiais.
           </p>
           <div className="heroButtons">
-            <Link href="/produto/tag-natal" className="primary">VER COLEÇÃO DE NATAL →</Link>
+            <Link href={`/produtos#${categoryAnchor("Natal")}`} className="primary">VER COLEÇÃO DE NATAL →</Link>
             <Link href="/produtos" className="secondaryButton">VER TODOS OS MIMOS</Link>
           </div>
         </div>
 
         <div className="heroProduct">
-          <div className="heroImageFrame">
+          <Link href={NATAL_PRODUCT} className="heroImageFrame">
             <Image
               src="/products/natal-vermelho-real.png"
               alt="Tag Natal com brincos de pérola"
               fill
               priority
+              sizes="(max-width: 900px) 88vw, 390px"
               style={{ objectFit: "cover" }}
             />
-          </div>
+          </Link>
           <div className="heroMiniCard">
             <span>DESTAQUE</span>
             <strong>Tags + brincos de pérola 6mm</strong>
@@ -102,10 +105,10 @@ export default function Home() {
       </section>
 
       <section className="trust">
-        <div><Gem/><span><strong>Produtos delicados</strong><small>Acabamento pensado nos detalhes</small></span></div>
-        <div><Truck/><span><strong>Envio para todo o Brasil</strong><small>Frete calculado no checkout</small></span></div>
-        <div><CreditCard/><span><strong>Pagamento seguro</strong><small>Pix e cartão</small></span></div>
-        <div><PackageCheck/><span><strong>Kits para diferentes demandas</strong><small>50, 100, 150, 200 e mais</small></span></div>
+        <div><Gem /><span><strong>Produtos delicados</strong><small>Acabamento pensado nos detalhes</small></span></div>
+        <div><Truck /><span><strong>Envio para todo o Brasil</strong><small>Frete calculado no checkout</small></span></div>
+        <div><CreditCard /><span><strong>Pagamento seguro</strong><small>Pix e cartão</small></span></div>
+        <div><PackageCheck /><span><strong>Kits para diferentes demandas</strong><small>50, 100, 150, 200 e mais</small></span></div>
       </section>
 
       <section className="section">
@@ -114,16 +117,16 @@ export default function Home() {
             <span className="sectionEyebrow">ENCONTRE O MIMO IDEAL</span>
             <h2>Compre por categoria</h2>
           </div>
-          <a>Ver todas <ChevronRight size={15}/></a>
+          <Link href="/produtos">Ver todas <ChevronRight size={15} /></Link>
         </div>
 
         <div className="categoryGrid">
-          {categories.map(({label, icon: Icon, subtitle}) => (
-            <div className="categoryCard categoryCardV3" key={label}>
-              <div className="categoryIcon"><Icon size={34}/></div>
+          {categories.map(({ label, icon: Icon, subtitle, href }) => (
+            <Link href={href} className="categoryCard categoryCardV3" key={label}>
+              <div className="categoryIcon"><Icon size={34} /></div>
               <strong>{label}</strong>
               <span>{subtitle}</span>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
@@ -134,23 +137,24 @@ export default function Home() {
             <span className="sectionEyebrow">SELEÇÃO DA LOJA</span>
             <h2>Produtos em destaque</h2>
           </div>
-          <a>Ver todos <ChevronRight size={15}/></a>
+          <Link href="/produtos">Ver todos <ChevronRight size={15} /></Link>
         </div>
 
         <div className="productGrid productGridV3">
-          {products.map((p, i) => (
-            <Link
-              className="productCard productCardV3"
-              key={p.name}
-              href={`/produto/${p.slug}`}
-            >
+          {featured.map((p) => (
+            <Link className="productCard productCardV3" key={p.slug} href={`/produto/${p.slug}`}>
               <div className="productImage">
-                <Image src={p.image} alt={p.name} fill style={{objectFit:"cover"}} />
-                <button className="fav" aria-label="Favoritar"><Heart size={18}/></button>
+                <Image
+                  src={p.image}
+                  alt={p.name}
+                  fill
+                  sizes="(max-width: 900px) 50vw, 33vw"
+                  style={{ objectFit: "cover" }}
+                />
               </div>
               <div className="productMeta">{p.category}</div>
               <h3>{p.name}</h3>
-              <div className="productCta">Ver opções <ChevronRight size={14}/></div>
+              <div className="productCta">Ver opções <ChevronRight size={14} /></div>
             </Link>
           ))}
         </div>
@@ -159,42 +163,44 @@ export default function Home() {
       <section className="promo promoV3">
         <div className="promoText">
           <span className="sectionEyebrow">PARA QUEM PRECISA DE QUANTIDADE</span>
-          <h2>Kits para clientes,<br/>eventos e empresas</h2>
+          <h2>Kits para clientes,<br />eventos e empresas</h2>
           <p>
             Escolha a quantidade que melhor atende sua necessidade e deixe o presente
             de fim de ano ainda mais especial.
           </p>
-          <Link href="/produto/tag-natal" className="primary">VER KITS DISPONÍVEIS →</Link>
+          <Link href={NATAL_PRODUCT} className="primary">VER KITS DISPONÍVEIS →</Link>
         </div>
         <div className="promoVisual">
-          <div className="promoPearl">●</div>
-          <div className="promoBadge">KITS A PARTIR DE<br/><strong>50</strong><br/>UNIDADES</div>
+          <div className="promoPearl" aria-hidden>●</div>
+          <div className="promoBadge">KITS A PARTIR DE<br /><strong>50</strong><br />UNIDADES</div>
         </div>
       </section>
 
       <section className="benefitStrip">
-        <div><Gift/><strong>Lembrancinhas que encantam</strong><span>Para clientes, equipes e pessoas especiais.</span></div>
-        <div><Heart/><strong>Vários modelos e temas</strong><span>Profissões, Natal e datas comemorativas.</span></div>
-        <div><Gem/><strong>Pérolas delicadas</strong><span>Um mimo elegante e pronto para presentear.</span></div>
-        <div><Truck/><strong>Compra online com praticidade</strong><span>Do pedido à entrega em um só lugar.</span></div>
+        <div><Gift /><strong>Lembrancinhas que encantam</strong><span>Para clientes, equipes e pessoas especiais.</span></div>
+        <div><Heart /><strong>Vários modelos e temas</strong><span>Profissões, Natal e datas comemorativas.</span></div>
+        <div><Gem /><strong>Pérolas delicadas</strong><span>Um mimo elegante e pronto para presentear.</span></div>
+        <div><Truck /><strong>Compra online com praticidade</strong><span>Do pedido à entrega em um só lugar.</span></div>
       </section>
 
       <footer className="siteFooter">
         <div>
           <div className="footerBrand">Um mimo para você</div>
           <p>Mimos delicados para transformar pequenos gestos em lembranças especiais.</p>
+          {/* TODO: razão social, CNPJ, endereço e contato (exigidos pelo Decreto 7.962/2013) */}
         </div>
         <div>
           <strong>Loja</strong>
-          <a>Tags com brincos</a>
-          <a>Datas especiais</a>
-          <a>Kits e atacado</a>
+          <Link href="/produtos">Tags com brincos</Link>
+          <Link href={`/produtos#${categoryAnchor("Datas especiais")}`}>Datas especiais</Link>
+          <Link href="/produtos">Kits e atacado</Link>
         </div>
         <div>
           <strong>Atendimento</strong>
-          <a>Fale conosco</a>
-          <a>Trocas e dúvidas</a>
-          <a>Envios e prazos</a>
+          {/* TODO: criar as páginas de contato, trocas/arrependimento, envios e privacidade */}
+          <span>Fale conosco</span>
+          <span>Trocas e dúvidas</span>
+          <span>Envios e prazos</span>
         </div>
       </footer>
     </main>
