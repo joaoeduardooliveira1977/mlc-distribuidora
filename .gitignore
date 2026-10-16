@@ -1,0 +1,22 @@
+# dependências
+/node_modules
+
+# build do Next.js
+/.next/
+/out/
+/build
+
+# variáveis de ambiente (tokens do Mercado Pago, Melhor Envio etc.)
+.env*
+!.env.example
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+
+# sistema
+.DS_Store
+Thumbs.db
+npm-debug.log*
