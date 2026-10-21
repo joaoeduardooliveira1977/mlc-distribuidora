@@ -11,55 +11,80 @@ export const metadata: Metadata = {
 };
 
 function normalize(text: string) {
-  return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  return text.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 }
 
-export default function Produtos({ searchParams }: { searchParams: { q?: string } }) {
+type Props = { searchParams: { q?: string; categoria?: string } };
+
+export default function Produtos({ searchParams }: Props) {
   const query = (searchParams.q ?? "").trim();
   const terms = normalize(query).split(/\s+/).filter(Boolean);
-  const visible = terms.length
-    ? products.filter((p) => {
-        const haystack = normalize(`${p.name} ${p.category} ${p.short} ${p.description}`);
-        return terms.every((t) => haystack.includes(t));
-      })
-    : products;
-  const categories = getCategories().filter((c) => visible.some((p) => p.category === c));
+  const categories = getCategories();
+  const activeCategory = categories.find((c) => categoryAnchor(c) === searchParams.categoria);
+
+  const visible = products.filter((p) => {
+    if (activeCategory && p.category !== activeCategory) return false;
+    if (!terms.length) return true;
+    const haystack = normalize(`${p.name} ${p.category} ${p.short} ${p.description}`);
+    return terms.every((t) => haystack.includes(t));
+  });
+
+  const title = query
+    ? `Resultados para “${query}”`
+    : activeCategory ?? "Todos os produtos";
 
   return (
     <main className="catalogPage">
       <div className="catalogHeader">
         <div className="catalogTopRow">
-          <Link href="/" className="miniBrand">Um mimo para você</Link>
+          <Link href="/" className="miniBrand catalogBrand">Um mimo para você</Link>
           <CartLink className="miniCart" label="Carrinho" size={18} />
         </div>
-        <h1>{query ? `Resultados para “${query}”` : "Todos os produtos"}</h1>
-        <p>Escolha por categoria e encontre o mimo ideal.</p>
-        <form className="searchBox catalogSearch" action="/produtos" role="search">
-          <label htmlFor="busca" className="srOnly">Buscar produtos</label>
-          <input id="busca" name="q" type="search" defaultValue={query} placeholder="O que você está procurando?" />
-          <button type="submit" className="searchButton" aria-label="Buscar"><Search size={20} /></button>
-        </form>
+        <div className="catalogIntro">
+          <h1>{title}</h1>
+          <p>Escolha por categoria e encontre o mimo ideal.</p>
+          <form className="searchBox catalogSearch" action="/produtos" role="search">
+            <label htmlFor="busca" className="srOnly">Buscar produtos</label>
+            <input id="busca" name="q" type="search" defaultValue={query} placeholder="O que você está procurando?" />
+            <button type="submit" className="searchButton" aria-label="Buscar"><Search size={20} /></button>
+          </form>
+        </div>
       </div>
 
-      {visible.length === 0 && (
-        <section className="catalogSection emptySearch">
-          <p>Nenhum produto encontrado.</p>
-          <Link href="/produtos" className="primaryLink">Ver todos os produtos</Link>
-        </section>
-      )}
+      <div className="catalogBody">
+        <nav className="filterChips" aria-label="Categorias">
+          <Link href="/produtos" className={!activeCategory && !query ? "chip active" : "chip"}>
+            Todos
+          </Link>
+          {categories.map((c) => (
+            <Link
+              key={c}
+              href={`/produtos?categoria=${categoryAnchor(c)}`}
+              className={activeCategory === c ? "chip active" : "chip"}
+              aria-current={activeCategory === c ? "page" : undefined}
+            >
+              {c}
+            </Link>
+          ))}
+        </nav>
 
-      {categories.map((c) => (
-        <section className="catalogSection" key={c} id={categoryAnchor(c)}>
-          <div className="sectionHead"><h2>{c}</h2></div>
-          <div className="productGrid productGridV3">
-            {visible
-              .filter((p) => p.category === c)
-              .map((p) => (
-                <ProductCard key={p.slug} product={p} />
-              ))}
+        <p className="resultCount">
+          {visible.length} {visible.length === 1 ? "produto" : "produtos"}
+        </p>
+
+        {visible.length === 0 ? (
+          <div className="emptySearch">
+            <p>Nenhum produto encontrado.</p>
+            <Link href="/produtos" className="primaryLink">Ver todos os produtos</Link>
           </div>
-        </section>
-      ))}
+        ) : (
+          <div className="productGrid productGridV3">
+            {visible.map((p) => (
+              <ProductCard key={p.slug} product={p} />
+            ))}
+          </div>
+        )}
+      </div>
     </main>
   );
 }
