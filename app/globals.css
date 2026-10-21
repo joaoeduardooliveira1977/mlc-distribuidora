@@ -33,7 +33,7 @@
 .priceBig{font-size:34px;font-weight:800;color:#241d1a;margin-top:6px}
 .pixNote{font-size:12px;color:#7a6b65;margin-top:3px}
 .selectorBlock{border-top:1px solid var(--line);margin-top:24px;padding-top:22px}
-.selectorTitle{display:flex;justify-content:space-between;gap:16px;align-items:end;margin-bottom:13px}
+.selectorTitle{display:flex;justify-content:space-between;gap:16px;align-items:flex-end;margin-bottom:13px}
 .selectorTitle span{font-size:12px;color:#7a6963}
 .packGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .packOption{
@@ -222,9 +222,7 @@
 .checkoutButton:disabled{opacity:.55;cursor:not-allowed}
 .heroImageFrame{display:block}
 .siteFooter span{font-size:13px;color:#ead9d2}
-.catalogTopRow{max-width:1240px;margin:-34px auto 18px;display:flex;justify-content:space-between;align-items:center}
 .catalogSearch{max-width:520px;margin:18px auto 0}
-.catalogSection{scroll-margin-top:16px}
 .emptySearch{text-align:center;color:#6f605a}
 @media (max-width: 520px){
   .purchaseRow{grid-template-columns:1fr}
@@ -267,3 +265,27 @@
   .cartActions .whatsButton,.cartActions .clearButton{justify-content:center}
 }
 .sectionHead>a{white-space:nowrap}
+
+/* Catálogo: grade única centralizada com filtros por categoria */
+.catalogHeader{padding:0 0 30px}
+.catalogTopRow{max-width:1240px;margin:0 auto;padding:18px 24px 0;display:flex;justify-content:space-between;align-items:center;text-align:left}
+.catalogIntro{padding:22px 20px 0}
+.catalogIntro h1{margin-top:0}
+.catalogBody{max-width:1240px;margin:0 auto;padding:28px 24px 64px}
+.filterChips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.chip{border:1px solid #dfd1ca;background:#fff;color:#4b3d37;border-radius:999px;padding:8px 16px;font-size:13px;font-weight:600;transition:.15s ease}
+.chip:hover{border-color:var(--burgundy);color:var(--burgundy)}
+.chip.active{background:var(--burgundy);border-color:var(--burgundy);color:#fff}
+.resultCount{text-align:center;font-size:12px;color:#7a6963;margin:14px 0 22px}
+.catalogBody .emptySearch{text-align:center;color:#6f605a;padding:30px 0}
+@media (max-width: 850px){
+  .catalogBrand{display:block;font-size:20px}
+}
+@media (max-width: 600px){
+  .catalogTopRow{padding:14px 16px 0}
+  .catalogIntro h1{font-size:34px}
+  .catalogBody{padding:22px 16px 48px}
+  .filterChips{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;margin:0 -16px;padding:0 16px 4px;scrollbar-width:none}
+  .filterChips::-webkit-scrollbar{display:none}
+  .chip{flex:0 0 auto}
+}

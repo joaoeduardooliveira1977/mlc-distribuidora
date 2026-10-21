@@ -19,11 +19,11 @@ import { categoryAnchor, getProduct, type Product } from "../lib/catalog";
 import { whatsappLink } from "../lib/config";
 
 const categories = [
-  { label: "Natal", icon: Gift, subtitle: "Mimos de fim de ano", href: `/produtos#${categoryAnchor("Natal")}` },
-  { label: "Cabeleireira", icon: Scissors, subtitle: "Tags para clientes", href: `/produtos#${categoryAnchor("Cabeleireira")}` },
-  { label: "Manicure", icon: Sparkles, subtitle: "Mimos profissionais", href: `/produtos#${categoryAnchor("Manicure")}` },
-  { label: "Lash Designer", icon: Heart, subtitle: "Delicadeza e brilho", href: `/produtos#${categoryAnchor("Lash Designer")}` },
-  { label: "Estética", icon: Flower2, subtitle: "Autocuidado e carinho", href: `/produtos#${categoryAnchor("Estética")}` },
+  { label: "Natal", icon: Gift, subtitle: "Mimos de fim de ano", href: `/produtos?categoria=${categoryAnchor("Natal")}` },
+  { label: "Cabeleireira", icon: Scissors, subtitle: "Tags para clientes", href: `/produtos?categoria=${categoryAnchor("Cabeleireira")}` },
+  { label: "Manicure", icon: Sparkles, subtitle: "Mimos profissionais", href: `/produtos?categoria=${categoryAnchor("Manicure")}` },
+  { label: "Lash Designer", icon: Heart, subtitle: "Delicadeza e brilho", href: `/produtos?categoria=${categoryAnchor("Lash Designer")}` },
+  { label: "Estética", icon: Flower2, subtitle: "Autocuidado e carinho", href: `/produtos?categoria=${categoryAnchor("Estética")}` },
   { label: "Kits e Atacado", icon: Gem, subtitle: "A partir de 50 unidades", href: "/produtos" },
 ];
 
@@ -68,8 +68,8 @@ export default function Home() {
       <nav className="nav">
         <Link href="/">Início</Link>
         <Link href="/produtos">Tags com Brincos</Link>
-        <Link href={`/produtos#${categoryAnchor("Natal")}`}>Natal</Link>
-        <Link href={`/produtos#${categoryAnchor("Datas especiais")}`}>Datas Comemorativas</Link>
+        <Link href={`/produtos?categoria=${categoryAnchor("Natal")}`}>Natal</Link>
+        <Link href={`/produtos?categoria=${categoryAnchor("Datas especiais")}`}>Datas Comemorativas</Link>
         <Link href="/produtos">Kits e Atacado</Link>
       </nav>
 
@@ -82,7 +82,7 @@ export default function Home() {
             presentear e encantar clientes, colaboradores e pessoas especiais.
           </p>
           <div className="heroButtons">
-            <Link href={`/produtos#${categoryAnchor("Natal")}`} className="primary">VER COLEÇÃO DE NATAL →</Link>
+            <Link href={`/produtos?categoria=${categoryAnchor("Natal")}`} className="primary">VER COLEÇÃO DE NATAL →</Link>
             <Link href="/produtos" className="secondaryButton">VER TODOS OS MIMOS</Link>
           </div>
         </div>
@@ -181,7 +181,7 @@ export default function Home() {
         <div>
           <strong>Loja</strong>
           <Link href="/produtos">Tags com brincos</Link>
-          <Link href={`/produtos#${categoryAnchor("Datas especiais")}`}>Datas especiais</Link>
+          <Link href={`/produtos?categoria=${categoryAnchor("Datas especiais")}`}>Datas especiais</Link>
           <Link href="/produtos">Kits e atacado</Link>
         </div>
         <div>
